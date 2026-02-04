@@ -6,6 +6,8 @@ import HexKeyWithCards from './Components/HexKeyWithCards.js'
 import TheoryCirlces from './Components/TheoryCircles.js'
 import ExploreCards from './Components/ExploreCards.js'
 import ScaleExplore from './Components/ScaleExplore.js'
+import DronePlayerMode from './Components/DronePlayerMode.js'
+import SplashMockUp from './Components/SplashMockUp.js'
 
 import * as ScreenOrientation from 'expo-screen-orientation'
 
@@ -21,6 +23,7 @@ import {
   SafeAreaView,
 } from 'react-native'
 import { keys, getIntervalNo } from './data/KeyCards'
+import DronePlayer from './Components/DronePlayer.js'
 
 const annotatedBackGroundColor = 'rgba(21, 14, 35, 0.99)'
 const themeInit = {
@@ -61,6 +64,7 @@ export default function App() {
   }, [])
 
   const { width, height } = useWindowDimensions()
+  
   function splashAnimationOff() {
     setShowSplashAnimation(false)
   }
@@ -123,14 +127,15 @@ export default function App() {
 
   if (showSplashAnimation) {
     return (
-      <SplashAnimation
-        cardSize={cardSize}
-        width={width}
-        height={height}
-        animationTime={splashAnimation}
-        splashAnimationOff={splashAnimationOff}
-      />
-    )
+      <SplashMockUp cardSize={cardSize}  width={width} height={height} />
+      //   height={height} />
+      // <SplashAnimation
+      //   cardSize={cardSize}
+      //  
+      //   animationTime={splashAnimation}
+      //   splashAnimationOff={splashAnimationOff}
+      // />
+     )
   }
 
   return (
@@ -182,14 +187,15 @@ export default function App() {
                 </View>
               ) : (
                 <>
-                  <MainGamePage
+                <DronePlayerMode />
+                  {/* <MainGamePage
                     isRandomAllQuestionTypes={isRandom}
                     isAnimated={animationsOn}
                     setShowOptions={showOptionsSetter}
                     showOptions={showOptions}
                     dimensions={{ width, height }}
                     buttonTheme={randomMagusModeButton}
-                  />
+                  /> */}
 
                   {showOptions && (
                     <View style={styles.options}>

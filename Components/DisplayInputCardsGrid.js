@@ -7,8 +7,11 @@ import AnnotatedContext from './AnnotatedContext.js'
 
 import CardButton from './CardButton.js'
 
-const DisplayInputCardsGrid = ({ reDeal, isAnimated }) => {
+const DisplayInputCardsGrid = ({ reDeal, isAnimated, optionalCardsArray }) => {
   const { displayInputCardArray: cardsArray, choosingKey } = useGameContext()
+  if (optionalCardsArray) {
+    cardsArray = optionalCardsArray
+  }
   const { userInputCardPress, getAudioSrcIdxFromCardReducer } =
     useUpdateGameContext()
   const { annotated } = useContext(AnnotatedContext)
@@ -33,7 +36,7 @@ const DisplayInputCardsGrid = ({ reDeal, isAnimated }) => {
   const firstHalfArray = cardsArray.slice(0, cardsArray.length / 2)
   const secondHalfArray = cardsArray.slice(
     cardsArray.length / 2,
-    cardsArray.length
+    cardsArray.length,
   )
 
   return (
