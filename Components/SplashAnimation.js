@@ -23,6 +23,7 @@ const SplashAnimation = ({
   const cardWidth = cardSize.width / 2 || 0.3
   const rotationEnd = 0
 
+  console.log('splash animated', imgSource, width, height)
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [

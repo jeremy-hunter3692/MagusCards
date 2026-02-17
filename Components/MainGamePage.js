@@ -19,6 +19,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
 
   useEffect(() => {
     const allSingleNotes = []
+    
     noteAudioSrc.forEach((note) => {
       allSingleNotes.push(note.audioSrc[1])
       allSingleNotes.push(note.audioSrc[2])

@@ -7,11 +7,11 @@ import AnnotatedContext from './AnnotatedContext.js'
 
 import CardButton from './CardButton.js'
 
-const DisplayInputCardsGrid = ({ reDeal, isAnimated, optionalCardsArray }) => {
+const DisplayInputCardsGrid = ({ reDeal, isAnimated, }) => {
+
+
   const { displayInputCardArray: cardsArray, choosingKey } = useGameContext()
-  if (optionalCardsArray) {
-    cardsArray = optionalCardsArray
-  }
+
   const { userInputCardPress, getAudioSrcIdxFromCardReducer } =
     useUpdateGameContext()
   const { annotated } = useContext(AnnotatedContext)
@@ -33,8 +33,8 @@ const DisplayInputCardsGrid = ({ reDeal, isAnimated, optionalCardsArray }) => {
   }
 
   const dealAnimationDelay = 5
-  const firstHalfArray = cardsArray.slice(0, cardsArray.length / 2)
-  const secondHalfArray = cardsArray.slice(
+  const firstHalfArray = cardsArray?.slice(0, cardsArray.length / 2)
+  const secondHalfArray = cardsArray?.slice(
     cardsArray.length / 2,
     cardsArray.length,
   )

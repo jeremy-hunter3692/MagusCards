@@ -10,6 +10,7 @@ const DronePlayer = () => {
   const playingRef = useRef(false)
   const secondTimeoutRef = useRef(null)
   const requestIdRef = useRef(0)
+  
   useEffect(() => {
     // When either source or playing flag changes, decide what to do
     const rootValue = droneAudioSrc
