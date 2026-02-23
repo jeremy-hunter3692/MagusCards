@@ -16,23 +16,6 @@ const groupedNavMargin = 1
 
 const MainGamePage = ({ setShowOptions, buttonTheme }) => {
   //Might not need, props should re load the children correctly...?
-
-  useEffect(() => {
-    const allSingleNotes = []
-    
-    noteAudioSrc.forEach((note) => {
-      allSingleNotes.push(note.audioSrc[1])
-      allSingleNotes.push(note.audioSrc[2])
-    })
-
-    preloadSounds(allSingleNotes).catch((err) =>
-      console.warn('preload failed', err)
-    )
-  })
-
-  const { annotatedCard, annotated, setAnnotatedCard, setAnnotatedMode } =
-    useContext(AnnotatedContext)
-
   const {
     cardSize: { cardWidth, cardHeight },
     dimensions: { width, height },
@@ -49,6 +32,21 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
     droneAudioSrc,
     dronePlaying,
   } = useGameContext()
+  useEffect(() => {
+    const allSingleNotes = []
+
+    noteAudioSrc.forEach((note) => {
+      allSingleNotes.push(note.audioSrc[1])
+      allSingleNotes.push(note.audioSrc[2])
+    })
+    console.log('use in main game triggered allSingleNotes', allSingleNotes)
+    preloadSounds(allSingleNotes).catch((err) =>
+      console.warn('preload failed', err),
+    )
+  }, [droneAudioSrc])
+
+  const { annotatedCard, annotated, setAnnotatedCard, setAnnotatedMode } =
+    useContext(AnnotatedContext)
 
   const { setRandomisedQuestionsSameType } = useUpdateGameContext()
 
@@ -67,8 +65,8 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
     annotatedCard
       ? setAnnotatedCard(null)
       : !annotated
-      ? setAnnotatedMode(true)
-      : setAnnotatedMode(false)
+        ? setAnnotatedMode(true)
+        : setAnnotatedMode(false)
   }
   const navBarInset = width / 10
   const styles = StyleSheet.create({

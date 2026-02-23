@@ -72,10 +72,6 @@ const QuestionCards = () => {
     flipAnswerCardAnimation.value = 0
   }
 
-  function droneSetter() {
-    rootCardPress()
-  }
-
   const handleFlip = (toValue, card) => {
     const animationSpeed = 1000
     cancelAnimation(card)
@@ -87,7 +83,7 @@ const QuestionCards = () => {
           card.value =
             !displayScore && !skip ? withDelay(700, withTiming(0)) : toValue
         }
-      }
+      },
     )
   }
 
@@ -97,7 +93,7 @@ const QuestionCards = () => {
         card.value,
         [0, 180],
         [0, 180],
-        Extrapolate.CLAMP
+        Extrapolate.CLAMP,
       )
       return {
         transform: [{ rotateY: `${rotateY}deg` }],
@@ -111,7 +107,7 @@ const QuestionCards = () => {
         card.value,
         [0, 180],
         [180, 360],
-        Extrapolate.CLAMP
+        Extrapolate.CLAMP,
       )
       return {
         transform: [{ rotateY: `${rotateY}deg` }],
@@ -284,7 +280,7 @@ const QuestionCards = () => {
               findAudioSourceFunction={getAudioSrcIdxFromCardReducer}
               autoPlay={true}
               animationDelay={3}
-              animated={isAnimated}
+              animated={false}
               alterationSizing={alterationSizing}
             />
           )}
@@ -328,7 +324,9 @@ const QuestionCards = () => {
                   key={`backCard ${blankCard}`} // Use a unique key based on the answerCard
                   data={blankCard}
                   imgSource={blankCard.value.imgSrc}
-                  onPressPropFunction={() => console.log('blankOnPressFunction')}
+                  onPressPropFunction={() =>
+                    console.log('blankOnPressFunction')
+                  }
                   animationDelay={5}
                   animated={isAnimated}
                   isAnswerCardForAnnotated={true}

@@ -147,7 +147,6 @@ export function GameContextProvider({ children }) {
     let droneAudioType = droneType ? DoubleBassDrones : SynthDrones
     //TO DO  double check what findNoteEquivalent is for and rename it better
     let source = findNoteEquivalentInGivenArray(card, droneAudioType)
-
     setDroneAudioSrc(source?.audioSrc)
     setDronePlaying(true)
   }

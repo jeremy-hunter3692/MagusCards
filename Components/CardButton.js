@@ -3,7 +3,7 @@ import AnnotatedContext from './AnnotatedContext'
 import { useGameContext } from './GameContext'
 import ThemeContext from './ThemeContext'
 import SingleNotePlayer from './SingleNotePlayer'
-import { Pressable, Image, StyleSheet } from 'react-native'
+import { Pressable, Image, StyleSheet, View } from 'react-native'
 
 import Animated, {
   useSharedValue,
@@ -15,6 +15,7 @@ let hasPlayed = true
 const initCardSizeValue = 0
 
 const CardButton = ({
+  animated,
   onPressPropFunction,
   data,
   imgSource,
@@ -135,11 +136,17 @@ const CardButton = ({
         onPressOut={handlePressOutAnimation}
         style={styles.pressable}
       >
-        <Animated.View
-          style={[{ width: '100%', height: '100%' }, animatedStyle]}
-        >
-          <Image source={imgSource} testID={`image`} style={styles.image} />
-        </Animated.View>
+        {animated ? (
+          <Animated.View
+            style={[{ width: '100%', height: '100%' }, animatedStyle]}
+          >
+            <Image source={imgSource} testID={`image`} style={styles.image} />
+          </Animated.View>
+        ) : (
+          <View style={[{ width: '100%', height: '100%' }]}>
+            <Image source={imgSource} testID={`image`} style={styles.image} />
+          </View>
+        )}
       </Pressable>
     </>
   )

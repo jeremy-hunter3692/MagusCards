@@ -16,12 +16,8 @@ import ThemeContext from './Components/ThemeContext.js'
 import AnnotatedContext from './Components/AnnotatedContext.js'
 import SplashAnimation from './Components/SplashAnimation.js'
 import { StatusBar } from 'expo-status-bar'
-import {
-  StyleSheet,
-  View,
-  useWindowDimensions,
-  SafeAreaView,
-} from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { keys, getIntervalNo } from './data/KeyCards'
 import DronePlayer from './Components/DronePlayer.js'
 
@@ -141,13 +137,13 @@ export default function App() {
 
   return (
     <>
-      <SafeAreaView
+      <SafeAreaProvider
         style={{
           flex: 1,
           padding: 0,
           maxHeight: '100%',
           maxWidth: width,
-          // marginTop: 15,
+
           padding: 0,
           backgroundColor: annotatedCardDisplay
             ? theme.annotatedBackGroundColor
@@ -220,7 +216,7 @@ export default function App() {
         <TheoryCirlces /> 
         <ScaleExplore />*/}
         </ThemeContext.Provider>
-      </SafeAreaView>
+      </SafeAreaProvider>
     </>
   )
 }
