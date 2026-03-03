@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
 
@@ -7,14 +7,26 @@ import AnnotatedContext from './AnnotatedContext.js'
 
 import CardButton from './CardButton.js'
 
-const DisplayInputCardsGrid = ({ reDeal, isAnimated, }) => {
-
-
+const DisplayInputCardsGrid = ({
+  reDeal,
+  isAnimated,
+  practiseDroneMode,
+  optionalCardsArray,
+}) => {
   const { displayInputCardArray: cardsArray, choosingKey } = useGameContext()
 
-  const { userInputCardPress, getAudioSrcIdxFromCardReducer } =
-    useUpdateGameContext()
+  const {
+    userInputCardPress,
+    getAudioSrcIdxFromCardReducer,
+    getAndSetDroneAudioSource,
+  } = useUpdateGameContext()
+
   const { annotated } = useContext(AnnotatedContext)
+
+  const [inputCardsDisplay, setInputCardsDisplay] = useState(
+    optionalCardsArray && practiseDroneMode ? optionalCardsArray : cardsArray,
+  )
+
   const renderCount = useRef(0)
   renderCount.current += 1
 
@@ -31,12 +43,22 @@ const DisplayInputCardsGrid = ({ reDeal, isAnimated, }) => {
     let audioSrc = getAudioSrcIdxFromCardReducer(inpt)
     return audioSrc
   }
+  function setPractiseDrone(inpt) {
+    console.log('set', inpt)
+    getAndSetDroneAudioSource(inpt.value)
+  }
+  function handleClick(inpt) {
+    practiseDroneMode ? setPractiseDrone(inpt) : setAnswer(inpt)
+  }
 
   const dealAnimationDelay = 5
-  const firstHalfArray = cardsArray?.slice(0, cardsArray.length / 2)
-  const secondHalfArray = cardsArray?.slice(
-    cardsArray.length / 2,
-    cardsArray.length,
+  const firstHalfArray = inputCardsDisplay?.slice(
+    0,
+    inputCardsDisplay.length / 2,
+  )
+  const secondHalfArray = inputCardsDisplay?.slice(
+    inputCardsDisplay.length / 2,
+    inputCardsDisplay.length,
   )
 
   return (
@@ -45,7 +67,7 @@ const DisplayInputCardsGrid = ({ reDeal, isAnimated, }) => {
         {firstHalfArray?.map((x, index) => {
           return (
             <CardButton
-              onPressPropFunction={setAnswer}
+              onPressPropFunction={handleClick}
               data={{ value: x }}
               imgSource={x.imgSrc}
               key={`input${x.name}`}
@@ -61,7 +83,7 @@ const DisplayInputCardsGrid = ({ reDeal, isAnimated, }) => {
         {secondHalfArray?.map((x, index) => {
           return (
             <CardButton
-              onPressPropFunction={setAnswer}
+              onPressPropFunction={handleClick}
               data={{ value: x }}
               imgSource={x.imgSrc}
               key={`input${x.name}`}

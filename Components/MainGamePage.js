@@ -33,13 +33,14 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
     dronePlaying,
   } = useGameContext()
   useEffect(() => {
+    //Try this to see if it helps audio for drone and card misstime issue
+    if (!droneAudioSrc) return
     const allSingleNotes = []
 
     noteAudioSrc.forEach((note) => {
       allSingleNotes.push(note.audioSrc[1])
       allSingleNotes.push(note.audioSrc[2])
     })
-    console.log('use in main game triggered allSingleNotes', allSingleNotes)
     preloadSounds(allSingleNotes).catch((err) =>
       console.warn('preload failed', err),
     )
@@ -237,8 +238,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
 
       {dronePlaying && !annotated ? (
         <DronePlayer
-          dronePlaying={dronePlaying}
-          // reload={droneReload}
+   
           style={{ flex: 0, height: 0, width: 0, margin: 0, padding: 0 }}
         />
       ) : (
@@ -316,7 +316,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
             <Text style={[styles.annotatedText, { borderWidth: 0 }]}> </Text>
           )}
         </>
-        {displayInputCardArray && <DisplayCardsGrid />}
+        {displayInputCardArray && <DisplayCardsGrid  practiseDroneMode={false} />}
         {annotated && (
           <View style={styles.choosingKeyText}>
             <Text style={styles.annotatedText}>

@@ -9,7 +9,7 @@ export function distanceUpInIntervals(rootNote, targetNote) {
 
 export function getNoteCardIdxFromIntervalAndKeyCard(
   rootCardIDX,
-  intervalCardIDX
+  intervalCardIDX,
 ) {
   let answerIdx = rootCardIDX + intervalCardIDX
   answerIdx = answerIdx > 11 ? answerIdx - 12 : answerIdx
@@ -72,8 +72,8 @@ export function getIntervalCardsAsNotes(note, root) {
     diffAndRootsIdx > 11
       ? diffAndRootsIdx - 12
       : diffAndRootsIdx < 0
-      ? diffAndRootsIdx + 12
-      : diffAndRootsIdx
+        ? diffAndRootsIdx + 12
+        : diffAndRootsIdx
   return noteAudioSrc[answerIdx]
 }
 
@@ -141,7 +141,7 @@ export const cardReducer = (
   questionType,
   abBool,
   randomiseKey,
-  firstCardProp
+  firstCardProp,
 ) => {
   let firstCard
   let secondCard
@@ -222,23 +222,23 @@ export function returnScoreText(score) {
   return score === 12
     ? `Perfect!`
     : score > 9
-    ? 'Excellent!'
-    : score > 6
-    ? 'Commendable'
-    : score > 3
-    ? 'Keep Practising!'
-    : `Rome wasn't built in a day`
+      ? 'Excellent!'
+      : score > 6
+        ? 'Commendable'
+        : score > 3
+          ? 'Keep Practising!'
+          : `Rome wasn't built in a day`
 }
 
 function getNoOfAccidentals(inpt) {
   return inpt.value.intervals.reduce(
     (count, value) => count + (value === true ? 1 : 0),
-    0
+    0,
   )
 }
 
 export function generateModesSemiToneIncrements(
-  parentScale = [2, 2, 1, 2, 2, 2, 1]
+  parentScale = [2, 2, 1, 2, 2, 2, 1],
 ) {
   return parentScale.map((x, idx) => {
     if (idx === 0) {
@@ -315,7 +315,8 @@ export function getDataForAnnotated(inpt) {
       topLText: `Cards and system by\nAleister James Campbell\n
 www.aleisterjames.com\n
 Twitter/Instagram: @aleisterjames`,
-      bottomRText: 'App by Jeremy Hunter - website?',
+      bottomRText: 'App by Jeremy Hunter - jeremywhunter@instagram.com',
+      bottomLText: 'Card Design by Nic Porteous',
     }
   } else if (
     typeof inpt.value.intervals === 'undefined' &&
@@ -332,7 +333,7 @@ Twitter/Instagram: @aleisterjames`,
     let keyName = replaceFlatsForSharps(inpt.value.name, [inpt.value.name])
     let santisedAccidentals = replaceFlatsForSharps(
       inpt.value.name,
-      getAccidentalNames(inpt.value)
+      getAccidentalNames(inpt.value),
     )
     let noOfAccidentals = getNoOfAccidentals(inpt)
     let accidentalsText =

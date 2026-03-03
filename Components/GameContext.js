@@ -284,7 +284,7 @@ export function GameContextProvider({ children }) {
     whichCircle ? userScore++ : ''
     checkForGameOver()
   }
-
+ 
   function selectDroneAudio() {
     droneType = !droneType
     getAndSetDroneAudioSource(questionCards.firstCard.value)
@@ -321,6 +321,7 @@ export function GameContextProvider({ children }) {
         value={{
           userAnswerSetter,
           userInputCardPress,
+          getAndSetDroneAudioSource,
           loadNewQuestionCards,
           questionCardPress,
           setRandomisedQuestionsSameType,

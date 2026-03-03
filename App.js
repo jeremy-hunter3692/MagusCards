@@ -62,7 +62,6 @@ export default function App() {
   const { width, height } = useWindowDimensions()
 
   function splashAnimationOff() {
-    console.log('splash off')
     setShowSplashAnimation(false)
   }
 
@@ -184,15 +183,15 @@ export default function App() {
                 </View>
               ) : (
                 <>
-                  {/* <DronePlayerMode /> */}
-                  <MainGamePage
+                  <DronePlayerMode />
+                  {/* <MainGamePage
                     isRandomAllQuestionTypes={isRandom}
                     isAnimated={animationsOn}
                     setShowOptions={showOptionsSetter}
                     showOptions={showOptions}
                     dimensions={{ width, height }}
                     buttonTheme={randomMagusModeButton}
-                  />
+                  /> */}
 
                   {showOptions && (
                     <View style={styles.options}>
