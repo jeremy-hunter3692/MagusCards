@@ -18,7 +18,7 @@ const DronePlayerMode = () => {
   const image = useMemo(() => getImageFromAudio(droneAudioSrc), [droneAudioSrc])
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Image source={image} />
+      {/* <Image source={image} /> */}
       <CardButton
         imgSource={image.imgSrc}
         autoPlay={false}
