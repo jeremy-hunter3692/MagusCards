@@ -54,6 +54,17 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
   const fontSize =
     typeof fontScale === 'number' && !isNaN(fontScale) ? fontScale : 16
 
+  const randomMagusModeButton = {
+    margin: 2,
+    padding: 4,
+    color: theme.primaryColor,
+    fontSize: fontScale,
+    backgroundColor: '#FAFAFA',
+    borderRadius: 10,
+    borderColor: theme.secondaryColor,
+    borderWidth: 3,
+    overflow: 'hidden',
+  }
   function questionAB(bool) {
     //TO DO clear timeout/question change here
     clearTimeout(globalQuestionTimeOutID)
@@ -238,7 +249,6 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
 
       {dronePlaying && !annotated ? (
         <DronePlayer
-   
           style={{ flex: 0, height: 0, width: 0, margin: 0, padding: 0 }}
         />
       ) : (
@@ -316,7 +326,9 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
             <Text style={[styles.annotatedText, { borderWidth: 0 }]}> </Text>
           )}
         </>
-        {displayInputCardArray && <DisplayCardsGrid  practiseDroneMode={false} />}
+        {displayInputCardArray && (
+          <DisplayCardsGrid practiseDroneMode={false} />
+        )}
         {annotated && (
           <View style={styles.choosingKeyText}>
             <Text style={styles.annotatedText}>

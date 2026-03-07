@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-
+import MainGamePage from './Components/MainGamePage'
+import OptionsPage from './Components/OptionsPage.js'
+import AnnotatedCard from './Components/AnnotatedCards.js'
 import HexKeyWithCards from './Components/HexKeyWithCards.js'
 import TheoryCirlces from './Components/TheoryCircles.js'
 import ExploreCards from './Components/ExploreCards.js'
@@ -9,13 +11,15 @@ import SplashMockUp from './Components/SplashMockUp.js'
 
 import * as ScreenOrientation from 'expo-screen-orientation'
 
+import { GameContextProvider } from './Components/GameContext.js'
 import ThemeContext from './Components/ThemeContext.js'
+import AnnotatedContext from './Components/AnnotatedContext.js'
 import SplashAnimation from './Components/SplashAnimation.js'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
-
-import GameRoute from './Components/GameRoute.js'
+import { keys, getIntervalNo } from './data/KeyCards'
+import DronePlayer from './Components/DronePlayer.js'
 
 const annotatedBackGroundColor = 'rgba(21, 14, 35, 0.99)'
 const themeInit = {
@@ -32,11 +36,13 @@ const secondaryTheme = {
 let themeBool = true
 
 export default function App() {
-  // const [hexKey, setHexKey] = useState(keys[0])
+  const [hexKey, setHexKey] = useState(keys[0])
   const [theme, setTheme] = useState(themeInit)
-
+  const [annotatedCard, setAnnotatedCard] = useState()
+  const [showOptions, setShowOptions] = useState(false)
   const [annotatedCardDisplay, setAnnotatedCardDisplay] = useState(false)
   const [animationsOn, setAnimationsOn] = useState(true)
+  const [isRandom, setIsRandom] = useState(false)
   const [showSplashAnimation, setShowSplashAnimation] = useState(true)
   const splashAnimation = 4000
 
@@ -59,13 +65,6 @@ export default function App() {
     setShowSplashAnimation(false)
   }
 
- 
-
-  function changeTheme() {
-    themeBool === true ? setTheme(secondaryTheme) : setTheme(themeInit)
-    themeBool = !themeBool
-  }
-
   const font = {
     fontScale: Math.ceil(width / 70),
     fontColor: 'white',
@@ -73,17 +72,54 @@ export default function App() {
   }
   // const cardWidth = width > height ? width * 0.1 : width * 0.14
   const cardHeight = (height / 4) * 1.08
+
   const cardSize = {
     cardWidth: cardHeight * (2 / 3),
     cardHeight: cardHeight, //cardWidth * 1.5,
   }
-
   const scoreCirclesSize = height / 20
   const dimensions = { width: width, height: height }
 
   // function getKey(musicKey) {
   //   setHexKey(musicKey)
   // }
+
+  function handleAnnotatedClick(inpt) {
+    annotatedCard ? setAnnotatedCard(null) : setAnnotatedCard(inpt)
+  }
+
+  function setAnnotatedMode() {
+    annotatedCard ? setAnnotatedCard(null) : ''
+    setAnnotatedCardDisplay((x) => !x)
+  }
+  function changeTheme() {
+    themeBool === true ? setTheme(secondaryTheme) : setTheme(themeInit)
+    themeBool = !themeBool
+  }
+
+  function setAnimations() {
+    setAnimationsOn((x) => (x = !x))
+  }
+  function randomQuestionsSetter() {
+    setIsRandom((x) => (x = !x))
+  }
+
+  function showOptionsSetter() {
+    annotatedCardDisplay ? setAnnotatedCardDisplay(false) : ''
+    setShowOptions((x) => (x = !x))
+  }
+
+  const randomMagusModeButton = {
+    margin: 2,
+    padding: 4,
+    color: theme.primaryColor,
+    fontSize: font.fontScale,
+    backgroundColor: '#FAFAFA',
+    borderRadius: 10,
+    borderColor: theme.secondaryColor,
+    borderWidth: 3,
+    overflow: 'hidden',
+  }
 
   if (showSplashAnimation) {
     return (
@@ -131,7 +167,53 @@ export default function App() {
             animationsOn,
           }}
         >
-          <GameRoute dimensions={dimensions} />
+          <AnnotatedContext.Provider
+            value={{
+              annotatedCard,
+              annotated: annotatedCardDisplay,
+              setAnnotatedCard: handleAnnotatedClick,
+              setAnnotatedMode,
+              annotatedBackGroundColor: annotatedBackGroundColor,
+            }}
+          >
+            <GameContextProvider>
+              {annotatedCard ? (
+                <View style={styles.annotated}>
+                  <AnnotatedCard />
+                </View>
+              ) : (
+                <>
+                  <DronePlayerMode />
+                  {/* <MainGamePage
+                    isRandomAllQuestionTypes={isRandom}
+                    isAnimated={animationsOn}
+                    setShowOptions={showOptionsSetter}
+                    showOptions={showOptions}
+                    dimensions={{ width, height }}
+                    buttonTheme={randomMagusModeButton}
+                  /> */}
+
+                  {showOptions && (
+                    <View style={styles.options}>
+                      <OptionsPage
+                        height={height}
+                        changeTheme={changeTheme}
+                        randomQuestionsSetter={randomQuestionsSetter}
+                        setAnimations={setAnimations}
+                        isAnimated={animationsOn}
+                        setShowOptions={showOptionsSetter}
+                        theme={theme}
+                        buttonTheme={randomMagusModeButton}
+                      />
+                    </View>
+                  )}
+                </>
+              )}
+            </GameContextProvider>
+          </AnnotatedContext.Provider>
+          {/*  <ExploreCards />
+        <TheoryCirlces /> 
+        <ScaleExplore />*/}
         </ThemeContext.Provider>
       </SafeAreaProvider>
     </>
