@@ -45,7 +45,7 @@ export default function App() {
       try {
         await ScreenOrientation.lockAsync(
           ScreenOrientation.OrientationLock.LANDSCAPE,
-        )
+        ) 
       } catch (e) {
         console.warn('Failed to lock orientation', e)
       }
@@ -69,7 +69,7 @@ export default function App() {
   const font = {
     fontScale: Math.ceil(width / 70),
     fontColor: 'white',
-    fontType: 'Arial',
+    fontType: 'Apple SD Gothic Neo' //'Arial',
   }
   // const cardWidth = width > height ? width * 0.1 : width * 0.14
   const cardHeight = (height / 4) * 1.08

@@ -49,8 +49,6 @@ export default function GameRoute(dimensions) {
     setShowOptions((x) => (x = !x))
   }
 
-
-
   return (
     <AnnotatedContext.Provider
       value={{
@@ -74,7 +72,6 @@ export default function GameRoute(dimensions) {
               isAnimated={animationsOn}
               setShowOptions={showOptionsSetter}
               showOptions={showOptions}
-     
             />
 
             {showOptions && (
@@ -87,7 +84,6 @@ export default function GameRoute(dimensions) {
                   isAnimated={animationsOn}
                   setShowOptions={showOptionsSetter}
                   theme={theme}
-                  buttonTheme={randomMagusModeButton}
                 />
               </View>
             )}

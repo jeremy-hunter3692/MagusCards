@@ -11,10 +11,15 @@ import { preloadSounds } from './AudioManager.js'
 import { noteAudioSrc } from '../data/NotesAudiosSrc.js'
 
 import { useGameContext, useUpdateGameContext } from './GameContext.js'
+import OptionsPage from './OptionsPage.js'
 
 const groupedNavMargin = 1
 
-const MainGamePage = ({ setShowOptions, buttonTheme }) => {
+const MainGamePage = () => {
+  const [showingOptions, setShowingOptions] = useState(false)
+  function setShowOptionsSetter() {
+    setShowingOptions((x) => (x = !x))
+  }
   //Might not need, props should re load the children correctly...?
   const {
     cardSize: { cardWidth, cardHeight },
@@ -54,7 +59,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
   const fontSize =
     typeof fontScale === 'number' && !isNaN(fontScale) ? fontScale : 16
 
-  const randomMagusModeButton = {
+  const buttonTheme = {
     margin: 2,
     padding: 4,
     color: theme.primaryColor,
@@ -192,6 +197,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
     },
 
     chooseRandomText: buttonTheme,
+
     annotatedButton: {
       backgroundColor: 'white',
       width: scoreCirclesSize,
@@ -209,7 +215,7 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
         <View style={styles.rightNavBar}>
           <View style={styles.questionButtonInRightNavbar}>
             {!annotatedCard ? (
-              <Pressable onPress={() => setShowOptions()}>
+              <Pressable onPress={() => setShowOptionsSetter()}>
                 <Text style={styles.optionText}>Options </Text>
               </Pressable>
             ) : null}
@@ -247,96 +253,104 @@ const MainGamePage = ({ setShowOptions, buttonTheme }) => {
         </View>
       </View>
 
-      {dronePlaying && !annotated ? (
-        <DronePlayer
-          style={{ flex: 0, height: 0, width: 0, margin: 0, padding: 0 }}
-        />
+      {showingOptions ? (
+        <OptionsPage setShowOptions={setShowOptionsSetter}/>
       ) : (
-        ''
-      )}
-      {annotated && (
-        <View style={styles.topAnnotatedText}>
-          <View style={styles.annotatedText}>
-            <Text
-              style={[
-                styles.annotatedText,
-                { fontSize: fontSize * 0.6, borderWidth: 0 },
-              ]}
-            >
-              {'Key Interval Note \n ↑ Change question type here'}
-            </Text>
-          </View>
-          <View style={styles.annotatedText}>
-            <Text
-              style={[
-                styles.annotatedText,
-                {
-                  fontStyle: 'italic',
-                  fontSize: Math.ceil(fontSize * 0.6),
-                  borderWidth: 0,
-                },
-              ]}
-            >
-              Full circle for a correct answer and a dot if you got it on your
-              second go
-            </Text>
-            <Text style={[styles.annotatedText, { borderWidth: 0 }]}>
-              Score tracker ↑
-            </Text>
-          </View>
-          <View style={styles.annotatedText}>
-            <Text
-              style={[
-                styles.annotatedText,
-                { borderWidth: 0, fontSize: Math.ceil(fontSize * 0.6) },
-              ]}
-            >
-              Click on the cards for more information
-            </Text>
-            <Text
-              style={[
-                styles.annotatedText,
-                { borderWidth: 0, fontSize: Math.ceil(fontSize * 0.6) },
-              ]}
-            >
-              Options here ↑
-            </Text>
-          </View>
-        </View>
-      )}
-      <View style={styles.topRowCards}>
-        {annotated && <View style={styles.emptyCardPlaceHolder}></View>}
-        {/* <View style={styles.emptyCardPlaceHolder}></View> MAKE ABOVE NOTE ANNOTATED TO SHIFT QCARDS ACROSS  */}
-        {/* THIS HERE IS FOR THE AB BOOL VERSION <View style={styles.emptyCardPlaceHolder}>
-          {!isRandom ? (<PickShape questionAB={questionAB} width={cardWidth} /> ) : (null)}</View> */}
-        <QuestionCards />
-      </View>
-      <View style={styles.displayCardsGrid}>
         <>
-          {choosingKey ? (
-            <View style={styles.choosingKeyText}>
-              <Text style={styles.annotatedText}>
-                Choose a new key below ↓ or
-              </Text>
-              <Pressable onPress={setRandomisedQuestionsSameType}>
-                <Text style={styles.chooseRandomText}> Magus Mode</Text>
-              </Pressable>
-            </View>
+          {dronePlaying && !annotated && !showingOptions ? (
+            <DronePlayer
+              style={{ flex: 0, height: 0, width: 0, margin: 0, padding: 0 }}
+            />
           ) : (
-            <Text style={[styles.annotatedText, { borderWidth: 0 }]}> </Text>
+            ''
           )}
-        </>
-        {displayInputCardArray && (
-          <DisplayCardsGrid practiseDroneMode={false} />
-        )}
-        {annotated && (
-          <View style={styles.choosingKeyText}>
-            <Text style={styles.annotatedText}>
-              Choose your answer from these cards ↑
-            </Text>
+          {annotated && (
+            <View style={styles.topAnnotatedText}>
+              <View style={styles.annotatedText}>
+                <Text
+                  style={[
+                    styles.annotatedText,
+                    { fontSize: fontSize * 0.6, borderWidth: 0 },
+                  ]}
+                >
+                  {'Key Interval Note \n ↑ Change question type here'}
+                </Text>
+              </View>
+              <View style={styles.annotatedText}>
+                <Text
+                  style={[
+                    styles.annotatedText,
+                    {
+                      fontStyle: 'italic',
+                      fontSize: Math.ceil(fontSize * 0.6),
+                      borderWidth: 0,
+                    },
+                  ]}
+                >
+                  Full circle for a correct answer and a dot if you got it on
+                  your second go
+                </Text>
+                <Text style={[styles.annotatedText, { borderWidth: 0 }]}>
+                  Score tracker ↑
+                </Text>
+              </View>
+              <View style={styles.annotatedText}>
+                <Text
+                  style={[
+                    styles.annotatedText,
+                    { borderWidth: 0, fontSize: Math.ceil(fontSize * 0.6) },
+                  ]}
+                >
+                  Click on the cards for more information
+                </Text>
+                <Text
+                  style={[
+                    styles.annotatedText,
+                    { borderWidth: 0, fontSize: Math.ceil(fontSize * 0.6) },
+                  ]}
+                >
+                  Options here ↑
+                </Text>
+              </View>
+            </View>
+          )}
+          <View style={styles.topRowCards}>
+            {annotated && <View style={styles.emptyCardPlaceHolder}></View>}
+            {/* <View style={styles.emptyCardPlaceHolder}></View> MAKE ABOVE NOTE ANNOTATED TO SHIFT QCARDS ACROSS  */}
+            {/* THIS HERE IS FOR THE AB BOOL VERSION <View style={styles.emptyCardPlaceHolder}>
+          {!isRandom ? (<PickShape questionAB={questionAB} width={cardWidth} /> ) : (null)}</View> */}
+            <QuestionCards />
           </View>
-        )}
-      </View>
+          <View style={styles.displayCardsGrid}>
+            <>
+              {choosingKey ? (
+                <View style={styles.choosingKeyText}>
+                  <Text style={styles.annotatedText}>
+                    Choose a new key below ↓ or
+                  </Text>
+                  <Pressable onPress={setRandomisedQuestionsSameType}>
+                    <Text style={styles.chooseRandomText}> Magus Mode</Text>
+                  </Pressable>
+                </View>
+              ) : (
+                <Text style={[styles.annotatedText, { borderWidth: 0 }]}>
+                  {' '}
+                </Text>
+              )}
+            </>
+            {displayInputCardArray && (
+              <DisplayCardsGrid practiseDroneMode={false} />
+            )}
+            {annotated && (
+              <View style={styles.choosingKeyText}>
+                <Text style={styles.annotatedText}>
+                  Choose your answer from these cards ↑
+                </Text>
+              </View>
+            )}
+          </View>
+        </>
+      )}
     </>
   )
 }
